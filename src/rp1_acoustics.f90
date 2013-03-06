@@ -1,47 +1,47 @@
+module rp1_acoustics
 
 
+    integer, parameter :: meqn=2, mwaves=2
 
-!     =====================================================
-    subroutine rp1(maxm,meqn,mwaves,mbc,mx,ql,qr,auxl,auxr, &
-    wave,s,amdq,apdq,num_aux)
-!     =====================================================
+    ! density, bulk modulus, and sound speed, and impedence of medium:
+    ! (should be set in setprob.f)
+    double precision :: rho,bulk,cc,zz
 
-!     # Riemann solver for the acoustics equations in 1d,
+    contains
 
-!     # On input, ql contains the state vector at the left edge of each cell
-!     #           qr contains the state vector at the right edge of each cell
-
-!     # On output, wave contains the waves,
-!     #            s the speeds,
-!     #
-!     #            amdq = A^- Delta q,
-!     #            apdq = A^+ Delta q,
-!     #                   the decomposition of the flux difference
-!     #                       f(qr(i-1)) - f(ql(i))
-!     #                   into leftgoing and rightgoing parts respectively.
-!     #
-
-!     # Note that the i'th Riemann problem has left state qr(i-1,:)
-!     #                                    and right state ql(i,:)
-!     # From the basic clawpack routines, this routine is called with ql = qr
+    subroutine rp1(maux,mbc,mx,geom1,ql,qr,auxl,auxr,wave,s,amdq,apdq)
+    !=====================================================
+    !
+    !# Riemann solver for the acoustics equations in 1d,
+    !
+    !# On input, ql contains the state vector at the left edge of each cell
+    !#           qr contains the state vector at the right edge of each cell
+    !
+    !# On output, wave contains the waves,
+    !#            s the speeds,
+    !#
+    !#            amdq = A^- Delta q,
+    !#            apdq = A^+ Delta q,
+    !#                   the decomposition of the flux difference
+    !#                       f(qr(i-1)) - f(ql(i))
+    !#                   into leftgoing and rightgoing parts respectively.
+    !#
+    !
+    !# Note that the i'th Riemann problem has left state qr(i-1,:)
+    !#                                    and right state ql(i,:)
+    !# From the basic clawpack routines, this routine is called with ql = qr
 
 
     implicit double precision (a-h,o-z)
 
-    dimension wave(meqn, mwaves, 1-mbc:maxm+mbc)
-    dimension    s(mwaves,1-mbc:maxm+mbc)
-    dimension   ql(meqn, 1-mbc:maxm+mbc)
-    dimension   qr(meqn, 1-mbc:maxm+mbc)
-    dimension apdq(meqn, 1-mbc:maxm+mbc)
-    dimension amdq(meqn, 1-mbc:maxm+mbc)
+    dimension wave(meqn, mwaves, 1-mbc:mx+mbc)
+    dimension    s(mwaves,1-mbc:mx+mbc)
+    dimension   ql(meqn, 1-mbc:mx+mbc)
+    dimension   qr(meqn, 1-mbc:mx+mbc)
+    dimension apdq(meqn, 1-mbc:mx+mbc)
+    dimension amdq(meqn, 1-mbc:mx+mbc)
 
-!     local arrays
-!     ------------
     dimension delta(2)
-
-!     # density, bulk modulus, and sound speed, and impedence of medium:
-!     # (should be set in setprob.f)
-    common /cparam/ rho,bulk,cc,zz
 
 
 !     # split the jump in q at each interface into waves
@@ -77,3 +77,5 @@
 
     return
     end subroutine rp1
+
+end module
