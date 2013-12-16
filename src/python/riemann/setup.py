@@ -7,6 +7,7 @@ one_d_riemann =   ['acoustics',
                    'nonlinear_elasticity_fwave',
                    'reactive_euler_with_efix',
                    'shallow_roe_with_efix',
+                   'shallow_bathymetry_fwave',
                    'layered_shallow_water']
 
 two_d_riemann =   ['acoustics',
