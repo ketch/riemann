@@ -87,7 +87,9 @@ def configuration(parent_package='',top_path=None):
       'srcs':['rpn2_euler_mapgrid.f90','rpt2_euler_mapgrid.f90',
               'euler_roe_solver_mapgrid.f90','getquadinfo_mapgrid.f90']},
      {'ext' :'euler_4wave_2D',
-      'srcs':['rpn2_euler_4wave.f90','rpt2_euler.f90']}]
+      'srcs':['rpn2_euler_4wave.f90','rpt2_euler.f90']},
+    {'ext' :'acoustics_mapped_3D',
+      'srcs':['rpn3_acoustics_mapped.f90','rpt3_dummy.f90','rptt3_dummy.f90']}]
 
     for rp_dict in special_target_list:
         rp_ext = rp_dict['ext']

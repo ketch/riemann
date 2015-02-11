@@ -46,6 +46,7 @@ import vc_acoustics_3D_constants
 import euler_3D_constants
 import burgers_3D_constants
 import vc_advection_3D_constants
+import acoustics_mapped_3D_constants
 
 
 try:
@@ -80,6 +81,7 @@ try:
     import euler_3D
     import burgers_3D
     import vc_advection_3D
+    import acoustics_mapped_3D
 except ImportError as e:
     import traceback
     print "********************************************************************"
