@@ -43,8 +43,8 @@ subroutine rpn3(ixyz,maxm,meqn,mwaves,maux,mbc,mx,ql,qr,auxl,auxr,wave,s,amdq,ap
 ! On input, ql contains the state vector at the left edge of each cell
 !           qr contains the state vector at the right edge of each cell
 
-! Note that the i'th Riemann problem has left state qr(i-1,:)
-!                                    and right state ql(i,:)
+! Note that the i'th Riemann problem has left state qr(:,i-1)
+!                                    and right state ql(:,i)
 ! From the basic clawpack routines, this routine is called with ql = qr
 
 
@@ -80,9 +80,9 @@ subroutine rpn3(ixyz,maxm,meqn,mwaves,maux,mbc,mx,ql,qr,auxl,auxr,wave,s,amdq,ap
     endif
 
     do i = 2-mbc, mx+mbc
-        nx = auxl(i,inx)
-        ny = auxl(i,iny)
-        nz = auxl(i,inz)
+        nx = auxl(inx,i)
+        ny = auxl(iny,i)
+        nz = auxl(inz,i)
         u_normal_left  = nx*ql(2  ,i) + ny*ql(3  ,i) + nz*ql(4  ,i)
         u_normal_right = nx*qr(2,i-1) + ny*qr(3,i-1) + nz*qr(4,i-1)
 
@@ -98,15 +98,15 @@ subroutine rpn3(ixyz,maxm,meqn,mwaves,maux,mbc,mx,ql,qr,auxl,auxr,wave,s,amdq,ap
         a2 =  (delta(1) + zim*delta(2)) / (zim + zi)
 
         wave(1,1,i) = -a1*zim
-        wave(1,1,i) = a1 * nx
-        wave(2,1,i) = a1 * ny
-        wave(3,1,i) = a1 * nz
+        wave(2,1,i) = a1 * nx
+        wave(3,1,i) = a1 * ny
+        wave(4,1,i) = a1 * nz
         s(1,i) = -cim * auxl(iratio,i)
     
         wave(1,2,i) = a2*zi
-        wave(1,2,i) = a2 * nx
-        wave(2,2,i) = a2 * ny
-        wave(3,2,i) = a2 * nz
+        wave(2,2,i) = a2 * nx
+        wave(3,2,i) = a2 * ny
+        wave(4,2,i) = a2 * nz
         s(2,i) = ci * auxl(iratio,i)
     end do
 
